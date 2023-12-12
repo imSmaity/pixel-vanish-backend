@@ -1,5 +1,5 @@
 const express = require('express');
-require('dotenv').config({ path: '.env.dev' });
+require('dotenv').config({ path: '.env.local' });
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { PORT } = require('../config.js');
@@ -10,9 +10,10 @@ const routeNotFoundHandler = require('./middlewares/routeNotFoundHandler.js');
 const app = express();
 
 app.use(cors());
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '25mb' }));
+app.use(bodyParser.urlencoded({ limit: '25mb', extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ limit: '25mb', extended: true }));
 
 app.get('/', (req, res) => {
   res.status(200).json({ success: true, message: 'Server running' });
