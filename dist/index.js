@@ -2,7 +2,7 @@
 
 var express = require('express');
 require('dotenv').config({
-  path: '.env.dev'
+  path: '.env.local'
 });
 var cors = require('cors');
 var bodyParser = require('body-parser');
@@ -13,11 +13,16 @@ var errorHandler = require('./middlewares/errorHandler.js');
 var routeNotFoundHandler = require('./middlewares/routeNotFoundHandler.js');
 var app = express();
 app.use(cors());
-app.use(express.urlencoded({
-  extended: false
+app.use(bodyParser.json({
+  limit: '25mb'
 }));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
+  limit: '25mb',
+  extended: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({
+  limit: '25mb',
   extended: true
 }));
 app.get('/', function (req, res) {
